@@ -16,7 +16,12 @@ app.set("view engine", "ejs");
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://localhost/imageSearch');
+//local db
+// mongoose.connect('mongodb://localhost/imageSearch');
+
+//mongolab
+const url = process.env.MONGOLAB_URI;
+mongoose.connect(url);
 
 routes(app);
 
