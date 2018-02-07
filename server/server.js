@@ -2,8 +2,11 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require("path");
-const publicPath = path.join(__dirname, "..", "views");
+require("dotenv").config({ path: ".env"});
+const fetch = require('node-fetch');
+const mongoose = require('mongoose');
+const Search = require('../api/models/searchModel.js');
+const routes = require("../api/routes/routes.js");
 const app = express();
 
 app.use(express.static('publicPath'));
@@ -11,14 +14,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.set("view engine", "ejs");
 
+mongoose.Promise = global.Promise;
 
-app.get("/", (req, res) => {
-  res.render(path.join(publicPath, 'index.html.ejs'));
-});
+mongoose.connect('mongodb://localhost/imageSearch');
 
-// app.get("/random.js", (req, res) => {
-  
-// });
+routes(app);
 
 const port = process.env.PORT || 3000;
 
